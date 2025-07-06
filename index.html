@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="hug-bunny-game.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <title>Hug A Bunny Game</title>
+</head>
+
+<body>
+  <!-- Start Page Overlay -->
+  <div class="start-overlay">
+    <div class="start-content">
+      <h1>Hug a Bunny</h1>
+      <p>Help the bear find and hug<br>all the sad bunnies!</p>
+      <button class="start-btn">Start</button>
+    </div>
+  </div>
+
+  <!-- Tutorial Popups -->
+  <div class="tutorial-overlay">
+    <div class="tutorial-content">
+      <div class="tutorial-step" data-step="1">
+        <h2>Controls</h2>
+        <div class="controls-info">
+          <div class="pc-controls">
+            <h3>On PC/Desktop:</h3>
+            <p>Use WASD keys to move</p>
+            <img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAB2AAAAdgB+lymcgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAGvSURBVHic7ZoxTsNAEEX/NwkSElI6JCqUE9BwC+7AGbgBZ6DkBhyBO1BQcQI6CjokJJQEYV3QyoqyG+/GMztL/k+yZI/teZ7xlx0rkoADSW8lfUpajuQzSW8kHXXNOhXAlaT3kd1/5bukS0lnXbNOBfAo6brj+EtJd8XvD5IeumSdDGAp6a7j+CdJ94WA5y5ZpwI4lnRe0bep1Kak65p+STqRdFw1cY8A4FDSfUXfmrTtWZ1pl2XdRlVzap+AX+v6qXF4zH7u67GwBwC2c6voPTeVbTWnuYDU4lxAanEuILU4F5BanAtILc4FpBbnAlKLcwGpxbmA1OJcQGpxLiC1OBeQWpwLSC3OBaQW5wJSi3MBqcW5gNTiXEBqcS4gtTgXkFqcC0gtblxAk+2t3Aiv4/YWsCPAQaOt7GjzDk9xogJwBmALYNVkOzt2AL4AnAJYDVD7ZwngAsBnj4jf4BPAOYBFXwHF5BcAPgZ4cBV9APjMJb8tgAWAawDPPR58W/aSnwEsxhbwF8ACwC2A7QQE7CHfFodrq/8CWGISXmNs1n0AAAAASUVORK5CYII="
+              alt="WASD keys">
+          </div>
+          <div class="mobile-controls-info">
+            <h3>On Mobile:</h3>
+            <p>Choose between:</p>
+            <ul>
+              <li>Tap to move</li>
+              <li>Use joystick</li>
+            </ul>
+            <small>(Change anytime in settings)</small>
+          </div>
+        </div>
+        <div class="tutorial-buttons">
+          <button class="tutorial-next">Next</button>
+        </div>
+      </div>
+
+      <div class="tutorial-step" data-step="2">
+        <h2>Your Mission</h2>
+        <div class="mission-content">
+          <div class="mission-text">
+            <p class="main-goal">Find all the sad bunnies and give them a hug!</p>
+            <div class="mission-details">
+              <p>Follow the radar arrows to find them</p>
+              <p>Numbers show distance to nearest bunny</p>
+            </div>
+          </div>
+          <div class="bunny-examples">
+            <div class="bunny-type">
+              <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAgElEQVR4nO3WsQ2AMBBDwXdp2IeajbJ/KEAUkC+4k9ybwJLlygEAAAAAAOCvZmZdHbFo7Zl5XR2xYrfGl9URi3ZrXFtH/N3TGkfvhNk74XfWrXFsnTB7JwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPCND6YnB20M5g5TAAAAAElFTkSuQmCC"
+                alt="Sad bunny">
+              <span>Sad Bunny</span>
+            </div>
+            <div class="bunny-type">
+              <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAB2AAAAdgB+lymcgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAGvSURBVHic7ZoxTsNAEEX/NwkSElI6JCqUE9BwC+7AGbgBZ6DkBhyBO1BQcQI6CjokJJQEYV3QyoqyG+/GMztL/k+yZI/teZ7xlx0rkoADSW8lfUpajuQzSW8kHXXNOhXAlaT3kd1/5bukS0lnXbNOBfAo6brj+EtJd8XvD5IeumSdDGAp6a7j+CdJ94WA5y5ZpwI4lnRe0bep1Kak65p+STqRdFw1cY8A4FDSfUXfmrTtWZ1pl2XdRlVzap+AX+v6qXF4zH7u67GwBwC2c6voPTeVbTWnuYDU4lxAanEuILU4F5BanAtILc4FpBbnAlKLcwGpxbmA1OJcQGpxLiC1OBeQWpwLSC3OBaQW5wJSi3MBqcW5gNTiXEBqcS4gtTgXkFqcC0gtblxAk+2t3Aiv4/YWsCPAQaOt7GjzDk9xogJwBmALYNVkOzt2AL4AnAJYDVD7ZwngAsBnj4jf4BPAOYBFXwHF5BcAPgZ4cBV9APjMJb8tgAWAawDPPR58W/aSnwEsxhbwF8ACwC2A7QQE7CHfFodrq/8CWGISXmNs1n0AAAAASUVORK5CYII="
+                alt="Happy bunny">
+              <span>Happy Bunny</span>
+            </div>
+          </div>
+        </div>
+        <div class="tutorial-buttons">
+          <button class="tutorial-next">Next</button>
+        </div>
+      </div>
+
+      <div class="tutorial-step" data-step="3">
+        <h2>AFTER MO SILANG I HUG</h2>
+        <p>"Ako Naman I-hug Mo!" </p>
+        <p> - Jeanaih 🤣</p>
+        <div class="tutorial-buttons">
+          <button class="tutorial-start">Let's Go!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper">
+    <div class="end-message d-none">
+      <p>
+        Hooray! There's no more sad bunnies!
+      </p>
+      <button>play again</button>
+    </div>
+    <div class="bunny-radar">
+      <div class="circle"></div>
+    </div>
+    <div class="map-cover overflow-hidden">
+      <div class="map">
+        <div class="player-wrapper flex-center ">
+          <div class="player sprite-container">
+            <div class="bear sprite"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-controls">
+    <button class="tool-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1-2-2 2 2 0 0 1-2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1-2 2 2 2 0 0 1-2-2h-.09a1.65 1.65 0 0 0-1.51 1Z" />
+      </svg>
+    </button>
+    <div class="control-menu">
+      <div class="control-selector">
+        <button class="control-btn active" data-control="tap">Tap to Move</button>
+        <button class="control-btn" data-control="joystick">Joystick</button>
+      </div>
+    </div>
+    <div class="joystick-base">
+      <div class="joystick-stick"></div>
+    </div>
+  </div>
+
+  <div class="indicator">x 45</div>
+  <div class="sign">Made by Jeanaih</div>
+  <script src="hug-bunny-game.js"></script>
+</body>
+
+</html>
