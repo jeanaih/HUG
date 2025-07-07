@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="hug-bunny-game.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <!-- Add preload for background music -->
+  <link rel="preload" as="audio" href="audio/bgmusic loop.mp3" type="audio/mpeg">
+  <title>Hug A Bunny Game</title>
+</head>
+
+<body>
+  <!-- Loading Animation Overlay -->
+  <div class="loading-overlay" style="display:flex;">
+    <div class="loading-hug-anim">
+      <div class="loading-bear sprite-container">
+        <div class="bear sprite"></div>
+      </div>
+      <div class="loading-bunny sprite-container sad">
+        <div class="bunny sprite"></div>
+      </div>
+      <div class="loading-bar-bg">
+        <div class="loading-bar-fill"></div>
+      </div>
+      <div class="loading-text">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Start Page Overlay -->
+  <div class="start-overlay">
+    <div class="start-content">
+      <h1>Hug a Bunny</h1>
+      <p>Help the bear find and hug<br>all the sad bunnies!</p>
+      <div style="display:flex;gap:18px;justify-content:center;">
+        <button class="start-btn">Start</button>
+        <div class="coffee-btn-wrap">
+          <button class="coffee-btn icon-btn pixel-coffee-btn" title="Buy Me a Coffee"
+            style="display:flex;align-items:center;justify-content:center;">
+            <span>
+              <img src="images/coffee.png" alt="Buy Me a Coffee"
+                style="width:40px;height:40px;border-radius:6px;object-fit:cover;box-shadow:0 2px 0 #b7e3b0,2px 2px 0 #b7e3b0;">
+            </span>
+          </button>
+          <div class="coffee-bubble pixel-bubble">Buy Me a Coffee</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Mode Selection Overlay -->
+  <div class="mode-overlay" style="display:none">
+    <div class="mode-content">
+      <h1>Select Game Mode</h1>
+      <div class="mode-buttons">
+        <button class="mode-btn" data-mode="easy">Easy</button>
+        <button class="mode-btn" data-mode="medium">Medium</button>
+        <button class="mode-btn" data-mode="hard">Hard</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tutorial Popups -->
+  <div class="tutorial-overlay">
+    <div class="tutorial-content">
+      <div class="tutorial-step" data-step="1">
+        <h2>Controls</h2>
+        <div class="controls-info">
+          <div class="pc-controls">
+            <h3>On PC/Desktop:</h3>
+            <p>Use WASD keys to move</p>
+            <img src="./images/game.png" alt="WASD keys">
+          </div>
+          <div class="mobile-controls-info">
+            <h3>On Mobile:</h3>
+            <p>Choose between:</p>
+            <ul>
+              <li>Tap to move</li>
+              <li>Use joystick</li>
+            </ul>
+            <small>(Change anytime in settings)</small>
+          </div>
+        </div>
+        <div class="tutorial-buttons">
+          <button class="tutorial-next">Next</button>
+        </div>
+      </div>
+
+      <div class="tutorial-step" data-step="2">
+        <h2>Your Mission</h2>
+        <div class="mission-content">
+          <div class="mission-text">
+            <p class="main-goal">Find all the sad bunnies and give them a hug!</p>
+            <div class="mission-details">
+              <p>Follow the radar arrows to find them</p>
+              <p>Numbers show distance to nearest bunny</p>
+            </div>
+          </div>
+          <div class="bunny-examples">
+            <div class="bunny-type">
+              <img a
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAYAAAAbBi9cAAAAAXNSR0IArs4c6QAAALRJREFUOE+llNsNgCAMRWUCHUMn0hF1Ih1DJ8CU2OZSofXBD5KWw6EIobna2LeRv6lftiPg2IunZEqa1x3nNdPQCcyL08QqiIIMK4EwLiC2YiW201ZWXOoQY8xqJLUbuqStt24alZKzwqkBGotRrQ6vQF8gvABbhT8QhN1AtIJXK51D4wz0BIIW+Ju4WyM4NcvyZqRPCA0t2wSq3TXr2DEmp4a33ytyyZhfieyp0HfOstLPzAmHG47SmZBqWwAAAABJRU5ErkJggg=="
+                alt="Sad bunny">
+              <span>Sad Bunny</span>
+            </div>
+            <div class="bunny-type">
+              <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAKNJREFUOE/lVMERgCAMsxPIGDqRjqgT6Rg6Qb1worVg68PzIz9oCGnSgyq1uqZmHI3zSrqG/V39AgZomJZ4v29DRmbVDyIJSkokmVf/K1FMqQ3RsnEPQSYpPTQ9KsX/DVEpWk+NHhHSJOg7DeUdmcZgfyFKAIushMmInrajcS6RVOapzDwqvYYzy7eoKH0NnsGW8fhy3h9IvMjMDJlPFjogOoVseByz1PgRF28AAAAASUVORK5CYII="
+                alt="Happy bunny">
+              <span>Happy Bunny</span>
+            </div>
+          </div>
+        </div>
+        <div class="tutorial-buttons">
+          <button class="tutorial-next">Next</button>
+        </div>
+      </div>
+
+      <div class="tutorial-step" data-step="3">
+        <h2>AFTER MO SILANG I HUG</h2>
+        <p>"Ako Naman I-hug Mo!" </p>
+        <p> - Jeanaih 🤣</p>
+        <div class="tutorial-buttons">
+          <button class="tutorial-start">Let's Go!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper">
+    <div class="end-message d-none">
+      <img class="end-icon"
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAgElEQVR4nO3WsQ2AMBBDwXdp2IeajbJ/KEAUkC+4k9ybwJLlygEAAAAAAOCvZmZdHbFo7Zl5XR2xYrfGl9URi3ZrXFtH/N3TGkfvhNk74XfWrXFsnTB7JwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPCND6YnB20M5g5TAAAAAElFTkSuQmCC"
+        alt="Bunny celebration" />
+      <p>
+        Hooray!<br>
+        <span style="font-size:14px;display:block;margin-top:8px;">All the sad bunnies are happy now!</span>
+      </p>
+      <div class="end-actions">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <button class="play-again-btn icon-btn" title="Play Again">
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#57280f" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polygon points="5,3 19,12 5,21 5,3" fill="#b7e3b0" stroke="#57280f" />
+              </svg>
+            </span>
+          </button>
+          <div
+            style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">
+            Play Again</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <button class="coffee-btn icon-btn" title="Buy Me a Coffee">
+            <span>
+              <img src="images/coffee.png" alt="Buy Me a Coffee"
+                style="width:28px;height:28px;border-radius:50%;object-fit:cover;" />
+            </span>
+          </button>
+          <div
+            style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">
+            Buy Me a Coffee</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <button class="share-btn icon-btn" title="Copy Link">
+            <span>
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <circle cx="14" cy="14" r="14" fill="#0084ff" />
+                <g>
+                  <path d="M14 8V20" stroke="#fff" stroke-width="2.5" stroke-linecap="round" />
+                  <path d="M9 13l5-5 5 5" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round" fill="none" />
+                </g>
+              </svg>
+            </span>
+          </button>
+          <div
+            style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">
+            Copy Link</div>
+        </div>
+      </div>
+    </div>
+    <div class="bunny-radar">
+      <div class="circle"></div>
+    </div>
+    <div class="map-cover overflow-hidden">
+      <div class="map">
+        <div class="player-wrapper flex-center ">
+          <div class="player sprite-container">
+            <div class="bear sprite"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-controls">
+    <button class="tool-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1-2-2 2 2 0 0 1-2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1-2 2 2 2 0 0 1-2-2h-.09a1.65 1.65 0 0 0-1.51 1Z" />
+      </svg>
+    </button>
+    <div class="control-menu">
+      <div class="control-selector">
+        <button class="control-btn active" data-control="tap">Tap to Move</button>
+        <button class="control-btn" data-control="joystick">Joystick</button>
+      </div>
+    </div>
+    <div class="joystick-base">
+      <div class="joystick-stick"></div>
+    </div>
+  </div>
+
+  <div class="indicator"></div>
+  <div class="sign">Made by Jeanaih</div>
+  <!-- Timer will be injected by JS -->
+
+  <!-- Buy Me a Coffee Modal -->
+  <div class="coffee-modal"
+    style="display:none;position:fixed;z-index:100003;top:0;left:0;width:100vw;height:100vh;background:rgba(16,36,41,0.85);align-items:center;justify-content:center;">
+    <div
+      style="background:#fff7fa;border:4px solid #b7e3b0;box-shadow:0 0 0 4px #e6f9e0,0 0 0 8px #b7e3b0,inset 0 0 0 2px #e6f9e0;padding:32px 24px;border-radius:12px;max-width:90vw;width:340px;display:flex;flex-direction:column;align-items:center;gap:18px;position:relative;">
+      <button class="coffee-modal-close"
+        style="position:absolute;top:8px;right:8px;background:none;border:none;font-size:22px;cursor:pointer;color:#57280f;">×</button>
+
+      <div style="font-family:'Press Start 2P',Arial,sans-serif;font-size:15px;color:#57280f;text-align:center;">
+        Please help Jeanaih buy coffee!<br>
+        <span style="font-size:11px;">Your support keeps the hugs coming ☕🐰</span>
+      </div>
+      <img src="images/gcash.jpg" alt="GCash QR Code"
+        style="margin-top:8px;display:inline-block;width:180px;height:auto;border-radius:8px;box-shadow:0 2px 8px #b7e3b0;">
+      <div
+        style="margin-top:8px;font-family:'Press Start 2P',Arial,sans-serif;font-size:13px;color:#57280f;text-align:center;">
+        Scan to send via GCash 💙
+      </div>
+    </div>
+  </div>
+
+  <script src="hug-bunny-game.js"></script>
+</body>
+
+</html>
