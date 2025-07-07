@@ -1002,7 +1002,7 @@ function init() {
   function showGameOverUI() {
     // Hide win UI if visible
     elements.endMessage.classList.add('d-none');
-    // Show Game Over UI (styled like start overlay, icon-only)
+    // Show Game Over UI (styled like end message)
     let gameOverEl = document.querySelector('.game-over-message');
     if (!gameOverEl) {
       gameOverEl = document.createElement('div');
@@ -1017,43 +1017,104 @@ function init() {
       gameOverEl.style.alignItems = 'center';
       gameOverEl.style.justifyContent = 'center';
       gameOverEl.innerHTML = `
-        <div style="background:#fff7fa;border:4px solid #b7e3b0;box-shadow:0 0 0 4px #e6f9e0,0 0 0 8px #b7e3b0,inset 0 0 0 2px #e6f9e0;padding:32px 24px;border-radius:0;display:flex;flex-direction:column;align-items:center;gap:24px;animation:float 3s ease-in-out infinite;">
-          <img class="end-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAgElEQVR4nO3WsQ2AMBBDwXdp2IeajbJ/KEAUkC+4k9ybwJLlygEAAAAAAOCvZmZdHbFo7Zl5XR2xYrfGl9URi3ZrXFtH/N3TGkfvhNk74XfWrXFsnTB7JwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPCND6YnB20M5g5TAAAAAElFTkSuQmCC" alt="Bunny sad" style="width:48px;height:48px;image-rendering:pixelated;"/>
-          <p style="color:#57280f;font-size:clamp(13px,2.5vw,18px);font-family:'Press Start 2P',Arial,Helvetica,sans-serif;text-align:center;text-shadow:1px 1px 0 #fff;">
-            Game Over!<br>
-            <span style="font-size:14px;display:block;margin-top:8px;">You ran out of time.<br>Want to try again or change game mode?</span>
+        <div class="end-message">
+          <img class="end-icon" 
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAgElEQVR4nO3WsQ2AMBBDwXdp2IeajbJ/KEAUkC+4k9ybwJLlygEAAAAAAOCvZmZdHbFo7Zl5XR2xYrfGl9URi3ZrXFtH/N3TGkfvhNk74XfWrXFsnTB7JwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPCND6YnB20M5g5TAAAAAElFTkSuQmCC" 
+            alt="Bunny sad" />
+          <p>
+            <div style="background:#e6f9e0;padding:20px 12px 12px 12px;border-radius:8px;width:320px;max-width:90vw;margin:0 auto;box-shadow:0 0 0 4px #b7e3b0,0 0 0 8px #e6f9e0;">
+              <div style="font-size:24px;color:#57280f;margin-bottom:16px;text-shadow:2px 2px 0 #fff;">
+                Game Over!
+              </div>
+              <div style="font-size:13px;color:#57280f;margin-bottom:8px;line-height:1.5;">
+                Time's up! The bunnies are still waiting for their hugs.
+                <br><br>
+                Would you like to try again?
+              </div>
+            </div>
           </p>
-          <div class="end-actions" style="display:flex;flex-direction:row;gap:18px;align-items:center;justify-content:center;">
-            <button class="retry-btn icon-btn" title="Retry">
-              <span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="#57280f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polygon points="5,3 19,12 5,21 5,3" fill="#b7e3b0" stroke="#57280f"/>
-                </svg>
-              </span>
-            </button>
-            <button class="change-mode-btn burger-btn" title="Change Game Mode">
-              <span class="burger-icon">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                  <rect x="4" y="8" width="20" height="3" rx="1.5" fill="#57280f"/>
-                  <rect x="4" y="13" width="20" height="3" rx="1.5" fill="#57280f"/>
-                  <rect x="4" y="18" width="20" height="3" rx="1.5" fill="#57280f"/>
-                </svg>
-              </span>
-            </button>
+          <div class="end-actions">
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <button class="retry-btn icon-btn" title="Play Again">
+                <span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#57280f" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <polygon points="5,3 19,12 5,21 5,3" fill="#b7e3b0" stroke="#57280f"/>
+                  </svg>
+                </span>
+              </button>
+              <div style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">
+                Play Again
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <button class="coffee-btn icon-btn" title="Buy Me a Coffee">
+                <span>
+                  <img src="images/coffee.png" alt="Buy Me a Coffee" 
+                    style="width:28px;height:28px;border-radius:50%;object-fit:cover;" />
+                </span>
+              </button>
+              <div style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">
+                Buy Me a Coffee
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <button class="share-btn icon-btn" title="Copy Link">
+                <span>
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <circle cx="14" cy="14" r="14" fill="#0084ff"/>
+                    <g>
+                      <path d="M14 8V20" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+                      <path d="M9 13l5-5 5 5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" 
+                        stroke-linejoin="round" fill="none"/>
+                    </g>
+                  </svg>
+                </span>
+              </button>
+              <div style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">
+                Copy Link
+              </div>
+            </div>
           </div>
         </div>
       `;
       document.body.appendChild(gameOverEl);
-      gameOverEl.querySelector('.retry-btn').addEventListener('click', () => location.reload());
-      gameOverEl.querySelector('.change-mode-btn').addEventListener('click', () => {
-        gameOverEl.style.display = 'none';
-        showModeOverlay();
+
+      // Event Listeners
+      gameOverEl.querySelector('.retry-btn').addEventListener('click', () => {
+        SOUNDS.win.currentTime = 0;
+        SOUNDS.win.play();
+        location.reload();
+      });
+
+      gameOverEl.querySelector('.coffee-btn').addEventListener('click', () => {
+        SOUNDS.coffee.currentTime = 0;
+        SOUNDS.coffee.play();
+        document.querySelector('.coffee-modal').style.display = 'flex';
+      });
+
+      const shareBtn = gameOverEl.querySelector('.share-btn');
+      shareBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText('https://jeanaih.github.io/HUG/');
+          shareBtn.title = "Copied!";
+          shareBtn.classList.add('copied');
+          SOUNDS.share.currentTime = 0;
+          SOUNDS.share.play();
+          setTimeout(() => {
+            shareBtn.title = "Copy Link";
+            shareBtn.classList.remove('copied');
+          }, 1200);
+        } catch (err) {
+          alert('Failed to copy link.');
+        }
       });
     } else {
       gameOverEl.style.display = 'flex';
     }
     timerEl.style.display = 'none';
-    SOUNDS.gameover.currentTime = 0; SOUNDS.gameover.play();
+    SOUNDS.gameover.currentTime = 0;
+    SOUNDS.gameover.play();
   }
 
   function stopTimer() {

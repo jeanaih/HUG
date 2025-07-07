@@ -784,7 +784,6 @@ button:hover {
   transform: translateX(-50%);
   width: 20px;
   height: 6px;
-  background: rgba(0, 0, 0, 0.1);
   border-radius: 50%;
   filter: blur(1px);
 }
@@ -971,6 +970,74 @@ body.starting .sign {
   filter: blur(2px);
   pointer-events: none;
   user-select: none;
+}
+
+/* Update game over and end message styles */
+.game-over-message {
+  background-image: linear-gradient(45deg, #b6e7a0 25%, #8fd17e 25%, #8fd17e 50%, #b6e7a0 50%, #b6e7a0 75%, #8fd17e 75%, #8fd17e 100%);
+  background-size: 20px 20px;
+  image-rendering: pixelated;
+}
+
+.game-over-message .end-message,
+.end-message {
+  background: #fff7fa;
+  border: 4px solid #b7e3b0;
+  box-shadow:
+    0 0 0 4px #e6f9e0,
+    0 0 0 8px #b7e3b0,
+    inset 0 0 0 2px #e6f9e0;
+  padding: 32px 24px;
+  border-radius: 0;
+  max-width: 90%;
+  width: max-content;
+  position: relative;
+  animation: float 3s ease-in-out infinite;
+  font-family: 'Press Start 2P', Arial, sans-serif;
+}
+
+.game-over-message p,
+.end-message p {
+  font-size: clamp(13px, 2.5vw, 18px);
+  color: #57280f;
+  text-align: center;
+  line-height: 1.6;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+.end-message .end-actions,
+.game-over-message .end-actions {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.end-message button,
+.game-over-message button {
+  font-family: 'Press Start 2P', cursive;
+  font-size: clamp(12px, 2vw, 16px);
+  background: #e2deec;
+  color: #57280f;
+  border: 4px solid #b7e3b0;
+  padding: 12px 24px;
+  min-width: 80px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  box-shadow: 0 2px 8px #b7e3b0;
+}
+
+.end-message button:hover,
+.game-over-message button:hover {
+  background: #b7e3b0;
+  transform: translateY(-2px) scale(1.04);
+}
+
+.end-message button:active,
+.game-over-message button:active {
+  background: #c2d0c0;
+  transform: translateY(2px) scale(0.98);
 }
 
 /* Mobile Controls */
@@ -1591,14 +1658,27 @@ body.mode-selecting .mode-overlay {
 }
 
 .game-over-message {
+  position: fixed;
+  z-index: 100002;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 36, 41, 0.85);
+}
+
+.game-over-message .end-message {
   background: #fff7fa;
   border: 4px solid #b7e3b0;
   box-shadow:
     0 0 0 4px #e6f9e0,
     0 0 0 8px #b7e3b0,
     inset 0 0 0 2px #e6f9e0;
-  border-radius: 0;
   padding: 32px 24px;
+  border-radius: 0;
   max-width: 90vw;
   width: max-content;
   display: flex;
@@ -1607,52 +1687,6 @@ body.mode-selecting .mode-overlay {
   justify-content: center;
   gap: 24px;
   animation: float 3s ease-in-out infinite;
-  font-family: 'Press Start 2P', Arial, Helvetica, sans-serif;
-}
-
-.game-over-message p {
-  background: none;
-  border: none;
-  box-shadow: none;
-  color: #57280f;
-  font-size: clamp(13px, 2.5vw, 18px);
-  font-family: 'Press Start 2P', Arial, Helvetica, sans-serif;
-  margin: 0;
-  text-align: center;
-  padding: 0;
-  width: auto;
-  max-width: 90vw;
-  text-shadow: 1px 1px 0 #fff;
-}
-
-.game-over-message .end-actions {
-  display: flex;
-  flex-direction: row;
-  gap: 18px;
-  align-items: center;
-  margin-top: 0;
-  justify-content: center;
-}
-
-.game-over-message .retry-btn,
-.game-over-message .change-mode-btn {
-  font-size: 0;
-  min-width: 0;
-  min-height: 0;
-  padding: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  text-align: center;
-  text-indent: -9999px;
-  overflow: hidden;
-}
-
-.game-over-message .retry-btn span,
-.game-over-message .change-mode-btn span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Coffee Button and Modal Styles */
