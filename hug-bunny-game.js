@@ -1220,6 +1220,33 @@ function showTutorial() {
   });
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+  const shareBtns = document.querySelectorAll('.share-btn');
+  shareBtns.forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      const url = 'https://jeanaih.github.io/HUG/';
+      // Copy to clipboard
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(() => {
+          btn.classList.add('copied');
+          setTimeout(() => btn.classList.remove('copied'), 1200);
+        });
+      } else {
+        // fallback for older browsers
+        const input = document.createElement('input');
+        input.value = url;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+        btn.classList.add('copied');
+        setTimeout(() => btn.classList.remove('copied'), 1200);
+      }
+    });
+  });
+});
+
 window.addEventListener('DOMContentLoaded', () => {
   // Show loading animation, then show start overlay
   playLoadingAnimation(() => {
