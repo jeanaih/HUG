@@ -36,8 +36,17 @@
       <h1>Hug a Bunny</h1>
       <p>Help the bear find and hug<br>all the sad bunnies!</p>
       <div style="margin-bottom:1px;width:100%;display:flex;flex-direction:column;align-items:center;">
-        <input class="player-name-input" type="text" maxlength="16" placeholder="Enter your name (optional)"
-          style="font-family:'Press Start 2P',Arial,sans-serif;font-size:13px;padding:8px 12px;border:2px solid #b7e3b0;border-radius:1px;background:#fff7fa;color:#57280f;outline:none;width:220px;max-width:90vw;text-align:center;box-shadow:0 2px 0 #b7e3b0,2px 2px 0 #b7e3b0;margin-bottom:0;" />
+        <div style="position:relative;display:flex;align-items:center;width:100%;justify-content:center;">
+          <input class="player-name-input" type="text" maxlength="16"
+            style="font-family:'Press Start 2P',Arial,sans-serif;font-size:12px;padding:7px 32px 7px 10px;border:2px solid #b7e3b0;border-radius:1px;background:#fff7fa;color:#57280f;outline:none;width:140px;max-width:60vw;text-align:center;box-shadow:0 2px 0 #b7e3b0,2px 2px 0 #b7e3b0;margin-bottom:0;min-width:80px;" />
+          <select class="player-name-dropdown"
+            style="position:absolute;right:2px;top:50%;transform:translateY(-50%);font-family:'Press Start 2P',Arial,sans-serif;font-size:11px;padding:7px 8px 7px 2px;border:none;background:transparent;color:#57280f;outline:none;min-width:24px;max-width:40vw;cursor:pointer;appearance:none;-webkit-appearance:none;">
+            <option value="">▼</option>
+          </select>
+        </div>
+        <span class="player-name-label"
+          style="font-family:'Press Start 2P',Arial,sans-serif;font-size:10px;color:#b7e3b0;margin-top:2px;letter-spacing:0.5px;display:block;text-align:center;">Enter
+          your name (optional)</span>
       </div>
       <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:10px;">
         <button class="start-btn">Start</button>
@@ -45,12 +54,13 @@
           style="width:38px;height:38px;min-width:38px;min-height:38px;max-width:38px;max-height:38px;display:flex;align-items:center;justify-content:center;padding:0;background:#e6f9e0;border:2px solid #b7e3b0;border-radius:6px;box-shadow:0 2px 0 #b7e3b0,2px 2px 0 #b7e3b0;cursor:pointer;">
           <span style="display:flex;align-items:center;justify-content:center;">
             <!-- 8bit trophy icon SVG -->
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="display:block;" xmlns="http://www.w3.org/2000/svg">
-              <rect x="3" y="4" width="16" height="10" rx="2" fill="#ffe066" stroke="#57280f" stroke-width="2"/>
-              <rect x="7" y="14" width="8" height="3" rx="1" fill="#ffe066" stroke="#57280f" stroke-width="2"/>
-              <rect x="9" y="17" width="4" height="2" rx="1" fill="#ffe066" stroke="#57280f" stroke-width="2"/>
-              <rect x="1" y="6" width="2" height="4" rx="1" fill="#b7e3b0" stroke="#57280f" stroke-width="1"/>
-              <rect x="19" y="6" width="2" height="4" rx="1" fill="#b7e3b0" stroke="#57280f" stroke-width="1"/>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="display:block;"
+              xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="4" width="16" height="10" rx="2" fill="#ffe066" stroke="#57280f" stroke-width="2" />
+              <rect x="7" y="14" width="8" height="3" rx="1" fill="#ffe066" stroke="#57280f" stroke-width="2" />
+              <rect x="9" y="17" width="4" height="2" rx="1" fill="#ffe066" stroke="#57280f" stroke-width="2" />
+              <rect x="1" y="6" width="2" height="4" rx="1" fill="#b7e3b0" stroke="#57280f" stroke-width="1" />
+              <rect x="19" y="6" width="2" height="4" rx="1" fill="#b7e3b0" stroke="#57280f" stroke-width="1" />
             </svg>
           </span>
         </button>
@@ -140,10 +150,10 @@
         <h2>AFTER MO SILANG I HUG</h2>
         <p>"Ako Naman I-hug Mo!" </p>
         <p> - Jeanaih 🤣</p>
-          <button class="tutorial-start">Let's Go!</button>
-        </div>
+        <button class="tutorial-start">Let's Go!</button>
       </div>
     </div>
+  </div>
   </div>
 
   <div class="end-message d-none">
@@ -301,23 +311,29 @@
   </div>
 
   <!-- Achievements Modal -->
-  <div class="achievements-modal" style="display:none;position:fixed;z-index:100004;top:0;left:0;width:100vw;height:100vh;background:rgba(16,36,41,0.92);align-items:center;justify-content:center;">
-    <div style="background:#fff7fa;border:4px solid #b7e3b0;box-shadow:0 0 0 4px #e6f9e0,0 0 0 8px #b7e3b0,inset 0 0 0 2px #e6f9e0;padding:32px 24px 24px 24px;border-radius:12px;max-width:95vw;width:340px;display:flex;flex-direction:column;align-items:center;gap:18px;position:relative;">
-      <button class="achievements-modal-close" style="position:absolute;top:8px;right:8px;background:none;border:none;font-size:22px;cursor:pointer;color:#57280f;">×</button>
-      <div style="font-family:'Press Start 2P',Arial,sans-serif;font-size:17px;color:#36a36a;text-align:center;margin-bottom:8px;">
+  <div class="achievements-modal"
+    style="display:none;position:fixed;z-index:100004;top:0;left:0;width:100vw;height:100vh;background:rgba(16,36,41,0.92);align-items:center;justify-content:center;">
+    <div
+      style="background:#fff7fa;border:4px solid #b7e3b0;box-shadow:0 0 0 4px #e6f9e0,0 0 0 8px #b7e3b0,inset 0 0 0 2px #e6f9e0;padding:32px 24px 24px 24px;border-radius:12px;max-width:95vw;width:340px;display:flex;flex-direction:column;align-items:center;gap:18px;position:relative;">
+      <button class="achievements-modal-close"
+        style="position:absolute;top:8px;right:8px;background:none;border:none;font-size:22px;cursor:pointer;color:#57280f;">×</button>
+      <div
+        style="font-family:'Press Start 2P',Arial,sans-serif;font-size:17px;color:#36a36a;text-align:center;margin-bottom:8px;">
         🏆 Achievements & Leaderboard
       </div>
-      <div class="achievements-badges" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;">
+      <div class="achievements-badges"
+        style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;">
         <!-- Badges will be injected by JS -->
       </div>
       <div style="width:100%;margin-bottom:8px;">
         <div style="font-size:13px;color:#57280f;text-align:center;margin-bottom:4px;">
-          <b>Total Hugs:</b> <span class="modal-total-hugs" style="color:#0084ff;">0</span>
+          <b>Leading Score:</b> <span class="modal-total-hugs" style="color:#0084ff;">0</span>
         </div>
       </div>
       <div class="leaderboard-section" style="width:100%;">
         <div style="font-size:13px;color:#36a36a;text-align:center;margin-bottom:4px;">Leaderboard</div>
-        <table class="leaderboard-table" style="width:100%;font-size:12px;color:#57280f;font-family:'Press Start 2P',Arial,sans-serif;border-collapse:collapse;">
+        <table class="leaderboard-table"
+          style="width:100%;font-size:12px;color:#57280f;font-family:'Press Start 2P',Arial,sans-serif;border-collapse:collapse;">
           <thead>
             <tr style="background:#e6f9e0;">
               <th style="padding:4px 6px;">#</th>
@@ -463,7 +479,55 @@
 
     // On load, update stats UI
     document.addEventListener('DOMContentLoaded', updateAchievementsUI);
+
+    // --- Player Name Dropdown Logic (from leaderboard, no duplicates with input) ---
+    function getLeaderboardNames() {
+      try {
+        const LB_KEY = 'hug_bunny_leaderboard';
+        const lb = JSON.parse(localStorage.getItem(LB_KEY)) || [];
+        // Only unique, non-empty names
+        return [...new Set(lb.map(row => row.name).filter(n => n && n.trim()))];
+      } catch { return []; }
+    }
+    function updateNameDropdown() {
+      const dropdown = document.querySelector('.player-name-dropdown');
+      const input = document.querySelector('.player-name-input');
+      if (!dropdown) return;
+      const names = getLeaderboardNames();
+      // Remove the current input value from the dropdown to avoid duplicate display
+      const filtered = input && input.value
+        ? names.filter(n => n !== input.value)
+        : names;
+      dropdown.innerHTML = '<option value="">▼</option>';
+      filtered.forEach(n => {
+        const opt = document.createElement('option');
+        opt.value = n;
+        opt.textContent = n;
+        dropdown.appendChild(opt);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+      updateNameDropdown();
+      const input = document.querySelector('.player-name-input');
+      const dropdown = document.querySelector('.player-name-dropdown');
+      if (dropdown && input) {
+        dropdown.addEventListener('change', function () {
+          if (dropdown.value) input.value = dropdown.value;
+          updateNameDropdown();
+        });
+        input.addEventListener('input', function () {
+          updateNameDropdown();
+        });
+      }
+      // Save name on start (no need to save to separate list, leaderboard will handle)
+      const startBtn = document.querySelector('.start-btn');
+      if (startBtn && input) {
+        startBtn.addEventListener('click', function () {
+          setTimeout(updateNameDropdown, 1000);
+        });
+      }
+    });
   </script>
 </body>
+
 </html>
-``` 
