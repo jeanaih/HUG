@@ -1079,6 +1079,23 @@ function init() {
     });
   });
 
+  // --- Detect mobile and set joystick as default ---
+  function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      || (window.innerWidth <= 900 && 'ontouchstart' in window);
+  }
+
+  // --- Set joystick as default if on mobile ---
+  if (isMobileDevice()) {
+    // Activate joystick control
+    elements.controlButtons.forEach(b => b.classList.remove('active'));
+    const joystickBtn = Array.from(elements.controlButtons).find(b => b.dataset.control === 'joystick');
+    if (joystickBtn) {
+      joystickBtn.classList.add('active');
+    }
+    elements.joystickBase.classList.add('active');
+  }
+
   const toolBtn = document.querySelector('.tool-btn');
   const controlMenu = document.querySelector('.control-menu');
 
@@ -1549,6 +1566,80 @@ document.addEventListener('DOMContentLoaded', function () {
       showPauseModal();
     } else if (e.key === 'Escape' && isPaused) {
       hidePauseModal();
+    }
+  });
+
+  // --- Player Name Dropdown Logic (integrated input/dropdown + button) ---
+  function getLeaderboardNames() {
+    try {
+      const LB_KEY = 'hug_bunny_leaderboard';
+      const lb = JSON.parse(localStorage.getItem(LB_KEY)) || [];
+      // Only unique, non-empty names
+      return [...new Set(lb.map(row => row.name).filter(n => n && n.trim()))];
+    } catch { return []; }
+  }
+  function updateNameDropdown(filter = "") {
+    const dropdown = document.querySelector('.player-name-dropdown');
+    const input = document.querySelector('.player-name-input');
+    if (!dropdown) return;
+    const names = getLeaderboardNames();
+    // Filter by input value (case-insensitive, startsWith)
+    const filtered = names.filter(n =>
+      !input.value || n.toLowerCase().startsWith(input.value.toLowerCase())
+    );
+    dropdown.innerHTML = "";
+    if (filtered.length) {
+      filtered.forEach(n => {
+        const div = document.createElement('div');
+        div.className = 'dropdown-item';
+        div.textContent = n;
+        dropdown.appendChild(div);
+      });
+      dropdown.style.display = 'block';
+    } else {
+      dropdown.style.display = 'none';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    const input = document.querySelector('.player-name-input');
+    const dropdown = document.querySelector('.player-name-dropdown');
+    const btn = document.querySelector('.player-name-dropdown-btn');
+    if (!input || !dropdown) return;
+
+    // Show dropdown on focus or input
+    input.addEventListener('focus', function () {
+      updateNameDropdown();
+    });
+    input.addEventListener('input', function () {
+      updateNameDropdown();
+    });
+
+    // Hide dropdown on blur (with timeout to allow click)
+    input.addEventListener('blur', function () {
+      setTimeout(() => { dropdown.style.display = 'none'; }, 120);
+    });
+
+    // Handle click on dropdown item
+    dropdown.addEventListener('mousedown', function (e) {
+      if (e.target.classList.contains('dropdown-item')) {
+        input.value = e.target.textContent;
+        dropdown.style.display = 'none';
+      }
+    });
+
+    // Button to toggle dropdown (default hide if no names)
+    if (btn) {
+      btn.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        // Only show if there are names to show
+        updateNameDropdown();
+        if (dropdown.innerHTML.trim()) {
+          dropdown.style.display = 'block';
+          input.focus();
+        } else {
+          dropdown.style.display = 'none';
+        }
+      });
     }
   });
 });

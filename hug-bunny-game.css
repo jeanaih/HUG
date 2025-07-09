@@ -86,12 +86,6 @@ body {
 
 .end-message,
 .game-over-message .end-message {
-  background: #fff7fa;
-  border: 4px solid #b7e3b0;
-  box-shadow:
-    0 0 0 4px #e6f9e0,
-    0 0 0 8px #b7e3b0,
-    inset 0 0 0 2px #e6f9e0;
   padding: 32px 24px;
   border-radius: 18px;
   max-width: 95vw;
@@ -120,7 +114,7 @@ body {
   display: flex !important;
   align-items: center;
   justify-content: center;
-  background: rgba(16, 36, 41, 0.10);
+  background: rgba(16, 36, 41, 0);
   /* subtle overlay */
   pointer-events: all;
   /* The rest of the styles remain as previously defined */
@@ -1420,8 +1414,10 @@ body.starting .sign {
   bottom: 100px;
   left: 50%;
   transform: translate(-50%, 100px);
-  width: 120px;
-  height: 120px;
+  width: 180px;
+  /* was 120px */
+  height: 180px;
+  /* was 120px */
   background: rgba(255, 255, 255, 0.15);
   border: 3px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
@@ -1438,8 +1434,10 @@ body.starting .sign {
 }
 
 .joystick-stick {
-  width: 50px;
-  height: 50px;
+  width: 80px;
+  /* was 50px */
+  height: 80px;
+  /* was 50px */
   background: linear-gradient(135deg, #ffffff, #e6f9e0);
   border: 3px solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
@@ -1947,7 +1945,7 @@ body.mode-selecting .mode-overlay {
 .pixel-coffee-btn {
   background: #ffe9b3;
   border: 4px solid #b7e3b0;
-  border-radius: 4px;
+  border-radius: 60px;
   width: 48px;
   height: 48px;
   min-width: 48px;
@@ -1986,12 +1984,11 @@ body.mode-selecting .mode-overlay {
 }
 
 .coffee-btn img {
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   border-radius: 6px;
   object-fit: cover;
   display: block;
-  box-shadow: 0 2px 0 #b7e3b0, 2px 2px 0 #b7e3b0;
 }
 
 .coffee-bubble.pixel-bubble {
@@ -2529,4 +2526,80 @@ body.game-paused .mobile-controls {
   width: 22px;
   height: 22px;
   filter: drop-shadow(0 1px 0 #fff7fa);
+}
+
+/* Integrated input/dropdown styles */
+.player-name-container {
+  position: relative;
+  width: 140px;
+  max-width: 60vw;
+  display: flex;
+  align-items: center;
+}
+
+.player-name-dropdown-btn {
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0 6px;
+  z-index: 11;
+  font-size: 16px;
+  color: #b7e3b0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-name-dropdown-btn:active,
+.player-name-dropdown-btn:focus {
+  color: #36a36a;
+}
+
+.player-name-input {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 6px 6px 0 0;
+}
+
+.player-name-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff7fa;
+  border: 2px solid #b7e3b0;
+  border-top: none;
+  box-shadow: 0 2px 8px #b7e3b0;
+  border-radius: 0 0 6px 6px;
+  z-index: 10;
+  max-height: 140px;
+  overflow-y: auto;
+  font-family: 'Press Start 2P', Arial, sans-serif;
+}
+
+.player-name-dropdown .dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #57280f;
+  background: #fff7fa;
+  border-bottom: 1px solid #e6f9e0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.player-name-dropdown .dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.player-name-dropdown .dropdown-item:hover,
+.player-name-dropdown .dropdown-item.active {
+  background: #e6f9e0;
+  color: #36a36a;
 }

@@ -36,13 +36,17 @@
       <h1>Hug a Bunny</h1>
       <p>Help the bear find and hug<br>all the sad bunnies!</p>
       <div style="margin-bottom:1px;width:100%;display:flex;flex-direction:column;align-items:center;">
-        <div style="position:relative;display:flex;align-items:center;width:100%;justify-content:center;">
+        <div class="player-name-container" style="position:relative;width:140px;max-width:60vw;display:flex;">
           <input class="player-name-input" type="text" maxlength="16"
-            style="font-family:'Press Start 2P',Arial,sans-serif;font-size:12px;padding:7px 32px 7px 10px;border:2px solid #b7e3b0;border-radius:1px;background:#fff7fa;color:#57280f;outline:none;width:140px;max-width:60vw;text-align:center;box-shadow:0 2px 0 #b7e3b0,2px 2px 0 #b7e3b0;margin-bottom:0;min-width:80px;" />
-          <select class="player-name-dropdown"
-            style="position:absolute;right:2px;top:50%;transform:translateY(-50%);font-family:'Press Start 2P',Arial,sans-serif;font-size:11px;padding:7px 8px 7px 2px;border:none;background:transparent;color:#57280f;outline:none;min-width:24px;max-width:40vw;cursor:pointer;appearance:none;-webkit-appearance:none;">
-            <option value="">▼</option>
-          </select>
+            style="font-family:'Press Start 2P',Arial,sans-serif;font-size:12px;padding:7px 32px 7px 10px;border:2px solid #b7e3b0;border-radius:1px;background:#fff7fa;color:#57280f;outline:none;width:100%;text-align:center;box-shadow:0 2px 0 #b7e3b0,2px 2px 0 #b7e3b0;margin-bottom:0;min-width:80px;"
+            autocomplete="off" />
+          <button type="button" class="player-name-dropdown-btn" aria-label="Show names"
+            style="position:absolute;right:2px;top:50%;transform:translateY(-50%);background:none;border:none;outline:none;cursor:pointer;padding:0 6px;z-index:11;">
+            <span style="font-size:14px;color:#b7e3b0;">▼</span>
+          </button>
+          <div class="player-name-dropdown"
+            style="display:none;position:absolute;top:100%;left:0;width:100%;background:#fff7fa;border:2px solid #b7e3b0;border-top:none;box-shadow:0 2px 8px #b7e3b0;border-radius:0 0 6px 6px;z-index:10;max-height:140px;overflow-y:auto;">
+          </div>
         </div>
         <span class="player-name-label"
           style="font-family:'Press Start 2P',Arial,sans-serif;font-size:10px;color:#b7e3b0;margin-top:2px;letter-spacing:0.5px;display:block;text-align:center;">Enter
@@ -68,18 +72,24 @@
           <button class="coffee-btn icon-btn pixel-coffee-btn" title="Buy Me a Coffee"
             style="display:flex;align-items:center;justify-content:center;">
             <span>
-              <img src="images/coffee.png" alt="Buy Me a Coffee"
-                style="width:40px;height:40px;border-radius:6px;object-fit:cover;box-shadow:0 2px 0 #b7e3b0,2px 2px 0 #b7e3b0;">
-            </span>
+              <img src="images/coffee.png" alt="Buy Me a Coffee" </span>
           </button>
           <div class="coffee-bubble pixel-bubble">Buy Me Coffee</div>
         </div>
       </div>
     </div>
-    <!-- Game version text at the bottom of start overlay -->
-    <div
-      style="width:100%;text-align:center;position:absolute;bottom:10px;left:0;font-family:'Press Start 2P',Arial,sans-serif;font-size:11px;color:#19481171;letter-spacing:1px;pointer-events:none;z-index:2;">
-      v.1.2.10
+    <!-- Game version and marquee at the bottom of start overlay -->
+    <div style="width:100%;position:absolute;bottom:10px;left:0;display:flex;align-items:center;gap:12px;z-index:2;">
+      <div
+        style="flex:0 0 auto;text-align:left;font-family:'Press Start 2P',Arial,sans-serif;font-size:11px;color:#19481171;letter-spacing:1px;pointer-events:none;">
+        v.1.21.8
+      </div>
+      <div style="flex:1 1 auto;overflow:hidden;">
+        <marquee behavior="scroll" direction="left" scrollamount="4"
+          style="font-family:'Press Start 2P',Arial,sans-serif;font-size:11px;color:#36a36a;letter-spacing:1px;">
+          This game is still in development. Stay tuned for future updates!
+        </marquee>
+      </div>
     </div>
   </div>
 
@@ -503,25 +513,36 @@
       const filtered = input && input.value
         ? names.filter(n => n !== input.value)
         : names;
-      dropdown.innerHTML = '<option value="">▼</option>';
+      dropdown.innerHTML = '';
       filtered.forEach(n => {
-        const opt = document.createElement('option');
-        opt.value = n;
+        const opt = document.createElement('div');
         opt.textContent = n;
+        opt.style.cssText = 'padding:6px 10px;cursor:pointer;font-family:"Press Start 2P",Arial,sans-serif;font-size:12px;color:#57280f;';
+        opt.addEventListener('click', function () {
+          input.value = n;
+          dropdown.style.display = 'none';
+        });
         dropdown.appendChild(opt);
       });
+      dropdown.style.display = filtered.length ? 'block' : 'none';
     }
     document.addEventListener('DOMContentLoaded', function () {
       updateNameDropdown();
       const input = document.querySelector('.player-name-input');
       const dropdown = document.querySelector('.player-name-dropdown');
-      if (dropdown && input) {
-        dropdown.addEventListener('change', function () {
-          if (dropdown.value) input.value = dropdown.value;
-          updateNameDropdown();
-        });
+      const dropdownBtn = document.querySelector('.player-name-dropdown-btn');
+      if (dropdown && input && dropdownBtn) {
         input.addEventListener('input', function () {
           updateNameDropdown();
+        });
+        input.addEventListener('focus', function () {
+          updateNameDropdown();
+        });
+        input.addEventListener('blur', function () {
+          setTimeout(() => dropdown.style.display = 'none', 200);
+        });
+        dropdownBtn.addEventListener('click', function () {
+          dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         });
       }
       // Save name on start (no need to save to separate list, leaderboard will handle)
