@@ -1669,7 +1669,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const clickSound = new Audio('data:audio/wav;base64,UklGRl9vT19VQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgA');
 
-  document.querySelector('.start-btn').addEventListener('click', () => {
+  document.querySelector('.start-btn.start-btn-p1').addEventListener('click', () => {
     // Get name from input and store globally
     const nameInput = document.querySelector('.player-name-input');
     window.PLAYER_NAME = nameInput && nameInput.value.trim() ? nameInput.value.trim().slice(0, 16) : "";

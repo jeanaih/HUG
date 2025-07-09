@@ -52,29 +52,39 @@
           style="font-family:'Press Start 2P',Arial,sans-serif;font-size:10px;color:#b7e3b0;margin-top:2px;letter-spacing:0.5px;display:block;text-align:center;">Enter
           player's name (optional)</span>
       </div>
-      <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:10px;">
-        <button class="start-btn">Start</button>
-        <button class="achievements-btn pixel-achievement-btn" title="Achievements"
-          style="width:38px;height:38px;min-width:38px;min-height:38px;max-width:38px;max-height:38px;display:flex;align-items:center;justify-content:center;padding:0;background:#e6f9e0;border:2px solid #b7e3b0;border-radius:6px;box-shadow:0 2px 0 #b7e3b0,2px 2px 0 #b7e3b0;cursor:pointer;">
-          <span style="display:flex;align-items:center;justify-content:center;">
-            <!-- 8bit trophy icon SVG -->
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="display:block;"
-              xmlns="http://www.w3.org/2000/svg">
-              <rect x="3" y="4" width="16" height="10" rx="2" fill="#ffe066" stroke="#57280f" stroke-width="2" />
-              <rect x="7" y="14" width="8" height="3" rx="1" fill="#ffe066" stroke="#57280f" stroke-width="2" />
-              <rect x="9" y="17" width="4" height="2" rx="1" fill="#ffe066" stroke="#57280f" stroke-width="2" />
-              <rect x="1" y="6" width="2" height="4" rx="1" fill="#b7e3b0" stroke="#57280f" stroke-width="1" />
-              <rect x="19" y="6" width="2" height="4" rx="1" fill="#b7e3b0" stroke="#57280f" stroke-width="1" />
-            </svg>
-          </span>
-        </button>
-        <div class="coffee-btn-wrap">
-          <button class="coffee-btn icon-btn pixel-coffee-btn" title="Buy Me a Coffee"
-            style="display:flex;align-items:center;justify-content:center;">
-            <span>
-              <img src="images/coffee.png" alt="Buy Me a Coffee" </span>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="display:flex;gap:18px;">
+          <button class="start-btn start-btn-p1">
+            <span style="font-size:25px; line-height:1; margin-bottom:4px; display:inline-block;">&#9654;</span>
+            <span style="font-size:18px;line-height:1;margin-top:2px;">P1</span>
           </button>
-          <div class="coffee-bubble pixel-bubble">Buy Me Coffee</div>
+          <button class="start-btn start-btn-p2">
+            <span style="font-size:25px; line-height:1; margin-bottom:4px; display:inline-block;">&#9654;</span>
+            <span style="font-size:18px;line-height:1;margin-top:2px;">P2</span>
+          </button>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-top:14px;">
+          <button class="achievements-btn pixel-achievement-btn" title="Achievements">
+            <span style="display:flex;align-items:center;justify-content:center;">
+              <!-- 8bit trophy icon SVG -->
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="display:block;"
+                xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="4" width="16" height="10" rx="2" fill="#ffe066" stroke="#57280f" stroke-width="2" />
+                <rect x="7" y="14" width="8" height="3" rx="1" fill="#ffe066" stroke="#57280f" stroke-width="2" />
+                <rect x="9" y="17" width="4" height="2" rx="1" fill="#ffe066" stroke="#57280f" stroke-width="2" />
+                <rect x="1" y="6" width="2" height="4" rx="1" fill="#b7e3b0" stroke="#57280f" stroke-width="1" />
+                <rect x="19" y="6" width="2" height="4" rx="1" fill="#b7e3b0" stroke="#57280f" stroke-width="1" />
+              </svg>
+            </span>
+          </button>
+          <div class="coffee-btn-wrap">
+            <button class="coffee-btn icon-btn pixel-coffee-btn" title="Buy Me a Coffee">
+              <span>
+                <img src="images/coffee.png" alt="Buy Me a Coffee" />
+              </span>
+            </button>
+            <div class="coffee-bubble pixel-bubble">Buy Me Coffee</div>
+          </div>
         </div>
       </div>
     </div>
@@ -286,7 +296,7 @@
         stroke="currentColor" stroke-width="2">
         <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
         <path
-          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1-2-2 2 2 0 0 1-2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1-2 2 2 2 0 0 1-2-2h-.09a1.65 1.65 0 0 0-1.51 1Z" />
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1-2-2 2 2 0 0 1-2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1-2 2 2 2 0 0 1-2-2h-.09a1.65 1.65 0 0 0-1.51 1Z" />
       </svg>
     </button>
     <div class="control-menu">
@@ -361,6 +371,26 @@
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+
+  <!-- Coming Soon Modal for Multiplayer -->
+  <div class="coming-soon-modal"
+    style="display:none;position:fixed;z-index:100005;top:0;left:0;width:100vw;height:100vh;background:rgba(16,36,41,0.92);align-items:center;justify-content:center;">
+    <div
+      style="background:#fff7fa;border:4px solid #36a3d9;box-shadow:0 0 0 4px #e6f9e0,0 0 0 8px #36a3d9,inset 0 0 0 2px #e6f9e0;padding:32px 24px 24px 24px;border-radius:12px;max-width:95vw;width:320px;display:flex;flex-direction:column;align-items:center;gap:18px;position:relative;">
+      <button class="coming-soon-modal-close"
+        style="position:absolute;top:8px;right:8px;background:none;border:none;font-size:22px;cursor:pointer;color:#36a3d9;">×</button>
+      <div
+        style="font-family:'Press Start 2P',Arial,sans-serif;font-size:17px;color:#36a3d9;text-align:center;margin-bottom:8px;">
+        Multiplayer Mode
+      </div>
+      <div style="font-size:14px;color:#57280f;text-align:center;">
+        <b>Coming Soon!</b><br>
+        Play with friends in the next update.<br>
+        Stay tuned!
+      </div>
+      <span style="font-size:32px;">👥</span>
     </div>
   </div>
 
@@ -550,6 +580,25 @@
       if (startBtn && input) {
         startBtn.addEventListener('click', function () {
           setTimeout(updateNameDropdown, 1000);
+        });
+      }
+    });
+
+    // Add handler for P2 (multiplayer) button
+    document.addEventListener('DOMContentLoaded', function () {
+      var p2btn = document.querySelector('.start-btn-p2');
+      var modal = document.querySelector('.coming-soon-modal');
+      var close = document.querySelector('.coming-soon-modal-close');
+      if (p2btn && modal && close) {
+        p2btn.addEventListener('click', function () {
+          modal.style.display = 'flex';
+        });
+        close.addEventListener('click', function () {
+          modal.style.display = 'none';
+        });
+        // Also close on outside click
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) modal.style.display = 'none';
         });
       }
     });
