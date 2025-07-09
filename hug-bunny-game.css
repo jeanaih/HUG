@@ -213,12 +213,87 @@ body {
 .end-message .end-actions,
 .game-over-message .end-actions {
   display: flex;
-  flex-direction: row;
-  gap: 18px;
-  align-items: center;
-  margin-top: 0;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 22px;
+  align-items: flex-end;
   justify-content: center;
-  flex-wrap: wrap;
+  margin-top: 0;
+  width: 100%;
+  padding: 0;
+}
+
+.end-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 64px;
+  max-width: 90px;
+  flex: 1 1 0;
+  gap: 4px;
+}
+
+.end-action-btn button {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.end-action-label {
+  font-size: 12px;
+  color: #57280f;
+  margin-top: 6px;
+  font-family: 'Press Start 2P', Arial, sans-serif;
+  letter-spacing: 1px;
+  text-align: center;
+  line-height: 1.2;
+  word-break: break-word;
+  width: 100%;
+  max-width: 90px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+@media (max-width: 600px) {
+
+  .end-message .end-actions,
+  .game-over-message .end-actions {
+    gap: 12px;
+  }
+
+  .end-action-btn {
+    min-width: 48px;
+    max-width: 70px;
+  }
+
+  .end-action-label {
+    font-size: 10px;
+    margin-top: 4px;
+    max-width: 70px;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .end-message .end-actions,
+  .game-over-message .end-actions {
+    gap: 6px;
+  }
+
+  .end-action-btn {
+    min-width: 36px;
+    max-width: 54px;
+  }
+
+  .end-action-label {
+    font-size: 8px;
+    margin-top: 2px;
+    max-width: 54px;
+  }
 }
 
 .end-message .end-icon {
@@ -304,6 +379,16 @@ body {
   .game-over-message p {
     font-size: 10px;
   }
+
+  .end-message .end-actions,
+  .game-over-message .end-actions {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6px;
+  }
 }
 
 .game-over-message {
@@ -339,6 +424,16 @@ body {
     border-width: 2.5px;
     border-radius: 10px;
     max-width: 98vw;
+  }
+
+  .end-message .end-actions,
+  .game-over-message .end-actions {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
   }
 }
 
@@ -1006,7 +1101,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 24px;
+  gap: 14px;
   max-width: 90%;
   width: max-content;
 }
@@ -2211,4 +2306,226 @@ body.mode-selecting .mode-overlay {
   width: 28px;
   height: 28px;
   display: block;
+}
+
+/* --- PAUSE BUTTON --- */
+.pause-btn {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1004;
+  background: #fff7fa;
+  border: 4px solid #b7e3b0;
+  border-radius: 0;
+  box-shadow: 0 0 0 4px #e6f9e0, 0 2px 8px #b7e3b0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  padding: 0;
+  outline: none;
+}
+
+.pause-btn:hover {
+  background: #b7e3b0;
+  transform: translateX(-50%) scale(1.04);
+}
+
+.pause-btn:active {
+  background: #c2d0c0;
+  transform: translateX(-50%) scale(0.98);
+}
+
+.pause-btn svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+/* --- PAUSE MODAL --- */
+.pause-modal {
+  position: fixed;
+  z-index: 100010;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(16, 36, 41, 0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.pause-modal[style*="display: flex"] {
+  display: flex !important;
+}
+
+.pause-modal-content {
+  background: #fff7fa;
+  border: 4px solid #b7e3b0;
+  box-shadow: 0 0 0 4px #e6f9e0, 0 0 0 8px #b7e3b0, inset 0 0 0 2px #e6f9e0;
+  padding: 32px 24px;
+  border-radius: 18px;
+  max-width: 95vw;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.pause-title {
+  font-size: 24px;
+  color: #36a36a;
+  font-family: 'Press Start 2P', Arial, sans-serif;
+  text-shadow: 2px 2px 0 #fff;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.pause-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 22px;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.pause-actions .icon-btn {
+  margin: 0 auto;
+}
+
+.pause-action-label {
+  font-size: 12px;
+  color: #57280f;
+  margin-top: 6px;
+  font-family: 'Press Start 2P', Arial, sans-serif;
+  letter-spacing: 1px;
+  text-align: center;
+  width: 100%;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+@media (max-width: 600px) {
+  .pause-modal-content {
+    padding: 18px 8px;
+    gap: 14px;
+    border-width: 2.5px;
+    border-radius: 10px;
+    max-width: 98vw;
+  }
+
+  .pause-title {
+    font-size: 16px;
+  }
+
+  .pause-actions {
+    gap: 10px;
+  }
+
+  .pause-action-label {
+    font-size: 10px;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 400px) {
+  .pause-modal-content {
+    padding: 10px 2px;
+    gap: 8px;
+    border-width: 2px;
+    border-radius: 7px;
+  }
+
+  .pause-title {
+    font-size: 12px;
+  }
+
+  .pause-actions {
+    gap: 6px;
+  }
+
+  .pause-action-label {
+    font-size: 8px;
+    margin-top: 2px;
+  }
+}
+
+/* Blur/disable game UI when paused */
+body.game-paused .wrapper,
+body.game-paused .indicator,
+body.game-paused .sign,
+body.game-paused .game-timer,
+body.game-paused .mobile-controls {
+  filter: blur(2px);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Player name display */
+.player-name-display {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  z-index: 1001;
+  font-family: 'Press Start 2P', Arial, sans-serif;
+  font-size: 11px;
+  color: #57280f;
+  text-align: center;
+  pointer-events: none;
+  min-width: 60px;
+  white-space: nowrap;
+  text-shadow: 1px 1px 0 #fff, 0 2px 0 #e6f9e0;
+  display: none;
+}
+
+/* Pixel/8bit Achievements Trophy Button */
+.pixel-achievement-btn {
+  background: #e6f9e0;
+  border: 3px solid #b7e3b0;
+  border-radius: 6px;
+  box-shadow: 0 2px 0 #b7e3b0, 2px 2px 0 #b7e3b0;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+  outline: none;
+}
+
+.pixel-achievement-btn:hover,
+.pixel-achievement-btn:focus {
+  background: #fff7fa;
+  box-shadow: 0 2px 0 #ffe066, 2px 2px 0 #ffe066;
+  transform: translateY(-2px) scale(1.04);
+}
+
+.pixel-achievement-btn:active {
+  background: #ffe066;
+  box-shadow: 0 1px 0 #b7e3b0, 1px 1px 0 #b7e3b0;
+  transform: translateY(2px) scale(0.98);
+}
+
+.pixel-achievement-btn svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  filter: drop-shadow(0 1px 0 #fff7fa);
 }

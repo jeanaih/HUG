@@ -4,6 +4,9 @@ window.GAME_MODE = {
   bunnyCount: 0
 };
 
+// Store player name globally
+window.PLAYER_NAME = "";
+
 // --- SOUND EFFECTS & MUSIC ---
 const SOUNDS = {
   bgm: new Audio('audio/bgmusic loop.mp3'),
@@ -156,6 +159,67 @@ function playLoadingAnimation(onDone) {
   }, 1200);
 }
 
+// --- PAUSE FEATURE ---
+let isPaused = false;
+let pauseBefore = {};
+function showPauseModal() {
+  if (isPaused) return;
+  isPaused = true;
+  // Pause timer
+  if (typeof stopTimer === 'function') stopTimer();
+  // Pause walk sound
+  if (typeof stopWalkSound === 'function') stopWalkSound();
+  // Pause all bunny walking intervals
+  if (window._pauseBunnyIntervals) window._pauseBunnyIntervals();
+  // Pause player walking
+  if (window._pausePlayerInterval) window._pausePlayerInterval();
+  // Blur game UI
+  document.body.classList.add('game-paused');
+  document.querySelector('.pause-modal').style.display = 'flex';
+}
+function hidePauseModal() {
+  if (!isPaused) return;
+  isPaused = false;
+  document.body.classList.remove('game-paused');
+  document.querySelector('.pause-modal').style.display = 'none';
+  // Resume timer
+  if (typeof startTimer === 'function') startTimer();
+  // Resume bunny walking intervals
+  if (window._resumeBunnyIntervals) window._resumeBunnyIntervals();
+  // Resume player walking
+  if (window._resumePlayerInterval) window._resumePlayerInterval();
+}
+
+// Patch bunny/player interval pause/resume (for robustness)
+window._pauseBunnyIntervals = function () {
+  if (!window._bunnyIntervals) window._bunnyIntervals = [];
+  document.querySelectorAll('.sprite-container.sad').forEach(el => {
+    if (el._interval) {
+      window._bunnyIntervals.push({ el, timer: el._interval });
+      clearInterval(el._interval);
+      el._interval = null;
+    }
+  });
+};
+window._resumeBunnyIntervals = function () {
+  if (!window._bunnyIntervals) return;
+  window._bunnyIntervals.forEach(({ el, timer }) => {
+    if (!el._interval && typeof timer === 'number') {
+      el._interval = setInterval(() => { }, 999999); // dummy, real bunny walk will restart on next move
+    }
+  });
+  window._bunnyIntervals = [];
+};
+window._pausePlayerInterval = function () {
+  if (window._playerInterval) {
+    clearInterval(window._playerInterval);
+    window._playerInterval = null;
+  }
+};
+window._resumePlayerInterval = function () {
+  // No-op, player interval resumes on input
+};
+
 function init() {
 
   const elements = {
@@ -169,7 +233,8 @@ function init() {
     button: document.querySelector('button'),
     joystickBase: document.querySelector('.joystick-base'),
     joystickStick: document.querySelector('.joystick-stick'),
-    controlButtons: document.querySelectorAll('.control-btn')
+    controlButtons: document.querySelectorAll('.control-btn'),
+    playerNameDisplay: document.querySelector('.player-name-display')
   }
 
   const radToDeg = rad => Math.round(rad * (180 / Math.PI))
@@ -272,7 +337,10 @@ function init() {
       sad: true,
       buffer: 30,
     }
-    settings.bunnies.push(bunny)
+    settings.bunnies.push(bunny);
+    // Add to global for sad thoughts loop
+    if (!window._bunnyList) window._bunnyList = [];
+    window._bunnyList.push(bunny);
     settings.map.el.appendChild(bunny.el)
     bunny.sprite.el = bunny.el.childNodes[0]
     bunny.el.style.zIndex = bunny.y
@@ -339,12 +407,93 @@ function init() {
   }
 
   const triggerBunnyMessage = (bunny, classToAdd) => {
-    bunny.el.setAttribute('message', ['thanks!', 'Salamat Bossing!', 'yeah!', '^ _ ^', 'thank you!', 'Bossing!'][randomN(5) - 1])
-    bunny.el.classList.add(classToAdd)
+    // Remove any previous chat bubble
+    let oldBubble = bunny.el.querySelector('.bunny-chat-bubble');
+    if (oldBubble) oldBubble.remove();
+
+    // Bunny sad thoughts/problems
+    const sadThoughts = [
+      "Mga manloloko 😭",
+      "I miss u 🥲",
+      "Balik ka na!! 😭",
+      "Di pa ba sapat 😭",
+      "Ako nalang kasi",
+      "Wala na ba talagang pag-asa?",
+      "Bakit ganon...",
+      "Sana all may ka-hug",
+      "Napagod na ako",
+      "Puyat na naman ako",
+      "Hindi ako pinili",
+      "Ang lungkot ko",
+      "Kailan kaya ako magiging masaya?",
+      "Sana masaya ka na",
+      "Iniwan na naman ako",
+      "Walang nagmamahal sakin",
+      "Sana may mag-hug sakin",
+      "Bakit ako nalang lagi?",
+      "Kulang pa ba?",
+      "Sana bumalik ka"
+    ];
+
+    // Only show sad thought if bunny is sad
+    if (!bunny.sad) return;
+
+    // Pick message
+    let msg = sadThoughts[Math.floor(Math.random() * sadThoughts.length)];
+
+    // Create chat bubble (top of bunny)
+    const bubble = document.createElement('div');
+    bubble.className = 'bunny-chat-bubble';
+    bubble.innerHTML = `<span class="bunny-chat-text">${msg}</span>`;
+    bubble.style.position = 'absolute';
+    bubble.style.left = '50%';
+    bubble.style.top = '-90px';
+    bubble.style.transform = 'translateX(-50%)';
+    bubble.style.background = '#ffe9b3';
+    bubble.style.border = '2px solid #b7e3b0';
+    bubble.style.borderRadius = '12px';
+    bubble.style.padding = '7px 16px';
+    bubble.style.fontFamily = "'Press Start 2P', Arial, sans-serif";
+    bubble.style.fontSize = '13px';
+    bubble.style.color = '#b97a56';
+    bubble.style.boxShadow = '0 2px 8px #b7e3b0, 0 0 0 2px #e6f9e0';
+    bubble.style.zIndex = '100';
+    bubble.style.pointerEvents = 'none';
+    bubble.style.animation = 'bunny-bubble-pop 0.18s cubic-bezier(.77,0,.18,1)';
+
+    // Insert bubble into bunny.el
+    bunny.el.appendChild(bubble);
+
+    // Remove bubble after animation
     setTimeout(() => {
-      bunny.el.classList.remove(classToAdd)
-    }, 800)
-  }
+      bubble.remove();
+    }, 1200);
+
+    // No happy animation for sad thought
+  };
+
+  // --- Make sad bunnies express their thoughts every 5 seconds, staggered ---
+  (function bunnySadThoughtsLoop() {
+    function scheduleSadThoughts() {
+      if (!window._bunnyList) return;
+      const sadBunnies = window._bunnyList.filter(b => b.sad);
+      sadBunnies.forEach((bunny, idx) => {
+        // Clear any previous interval
+        if (bunny._sadThoughtInterval) clearInterval(bunny._sadThoughtInterval);
+        // Stagger: each bunny starts after idx * 800ms, then every 5s
+        setTimeout(() => {
+          triggerBunnyMessage(bunny, '');
+          bunny._sadThoughtInterval = setInterval(() => {
+            if (bunny.sad) triggerBunnyMessage(bunny, '');
+          }, 5000);
+        }, idx * 800);
+      });
+    }
+    // Run on spawn and whenever a bunny is hugged (to update intervals)
+    setInterval(scheduleSadThoughts, 6000);
+    // Also run once on load
+    setTimeout(scheduleSadThoughts, 1000);
+  })();
 
   const updateSadBunnyCount = () => {
     const sadBunnyCount = settings.bunnies.filter(b => b.sad).length;
@@ -396,7 +545,7 @@ function init() {
     SOUNDS.win.currentTime = 0; SOUNDS.win.play();
 
     endMsg.querySelector('.end-actions').innerHTML = `
-      <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="end-action-btn">
         <button class="play-again-btn icon-btn" title="Play Again">
           <span>
             <svg viewBox="0 0 24 24" fill="none" stroke="#57280f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -404,17 +553,17 @@ function init() {
             </svg>
           </span>
         </button>
-        <div style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">Play Again</div>
+        <div class="end-action-label">Play Again</div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="end-action-btn">
         <button class="coffee-btn icon-btn" title="Buy Me a Coffee">
           <span>
             <img src="images/coffee.png" alt="Buy Me a Coffee" style="width:28px;height:28px;border-radius:50%;object-fit:cover;"/>
           </span>
         </button>
-        <div style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">Buy Me a Coffee</div>
+        <div class="end-action-label">Buy Me a Coffee</div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="end-action-btn">
         <button class="share-btn icon-btn" title="Copy Link">
           <span>
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -426,7 +575,7 @@ function init() {
             </svg>
           </span>
         </button>
-        <div style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">Copy Link</div>
+        <div class="end-action-label">Copy Link</div>
       </div>
     `;
 
@@ -468,6 +617,17 @@ function init() {
       SOUNDS.win.currentTime = 0; SOUNDS.win.play();
       location.reload();
     });
+
+    // --- Achievements/Leaderboard: Dispatch win event for stats update ---
+    setTimeout(() => {
+      try {
+        const name = (window.PLAYER_NAME || '').trim();
+        const event = new CustomEvent('hugBunnyGameWin', {
+          detail: { name, hugs: huggedCount }
+        });
+        window.dispatchEvent(event);
+      } catch (e) { }
+    }, 500);
   }
 
   const hugBunny = bunny => {
@@ -630,6 +790,18 @@ function init() {
   const positionMap = () => {
     settings.map.x = settings.offsetPos.x - player.x
     settings.map.y = settings.offsetPos.y - player.y
+    // Position name above player, always centered and higher
+    if (elements.playerNameDisplay && player.el) {
+      // Player's center in map coordinates
+      const bearWidth = 40; // adjust if bear sprite width changes
+      const nameOffsetY = 38; // raise higher above bear (was 18)
+      const playerX = player.x + settings.map.x;
+      const playerY = player.y + settings.map.y;
+      // Move name a bit more to the left (subtract a few more px)
+      elements.playerNameDisplay.style.left = `${playerX + bearWidth / 2 - 16}px`;
+      elements.playerNameDisplay.style.top = `${playerY - nameOffsetY}px`;
+      elements.playerNameDisplay.style.transform = 'translate(-50%, -100%)';
+    }
   }
 
   const resizeAndRepositionMap = () => {
@@ -881,6 +1053,15 @@ function init() {
   player.el.style.zIndex = player.y
   setSize(settings.map)
 
+  // Set player name display if available
+  if (window.PLAYER_NAME && elements.playerNameDisplay) {
+    elements.playerNameDisplay.textContent = window.PLAYER_NAME;
+    elements.playerNameDisplay.style.display = 'block';
+  } else if (elements.playerNameDisplay) {
+    elements.playerNameDisplay.textContent = '';
+    elements.playerNameDisplay.style.display = 'none';
+  }
+
   document.addEventListener('click', e => {
     if (e.target.closest('.mobile-controls')) return
 
@@ -1034,7 +1215,7 @@ function init() {
             </div>
           </p>
           <div class="end-actions">
-            <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="end-action-btn">
               <button class="retry-btn icon-btn" title="Play Again">
                 <span>
                   <svg viewBox="0 0 24 24" fill="none" stroke="#57280f" stroke-width="2" stroke-linecap="round"
@@ -1043,22 +1224,18 @@ function init() {
                   </svg>
                 </span>
               </button>
-              <div style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">
-                Play Again
-              </div>
+              <div class="end-action-label">Play Again</div>
             </div>
-            <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="end-action-btn">
               <button class="coffee-btn icon-btn" title="Buy Me a Coffee">
                 <span>
                   <img src="images/coffee.png" alt="Buy Me a Coffee" 
                     style="width:28px;height:28px;border-radius:50%;object-fit:cover;" />
                 </span>
               </button>
-              <div style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">
-                Buy Me a Coffee
-              </div>
+              <div class="end-action-label">Buy Me a Coffee</div>
             </div>
-            <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="end-action-btn">
               <button class="share-btn icon-btn" title="Copy Link">
                 <span>
                   <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -1071,9 +1248,7 @@ function init() {
                   </svg>
                 </span>
               </button>
-              <div style="font-size:11px;color:#57280f;margin-top:2px;font-family:'Press Start 2P',Arial,sans-serif;letter-spacing:1px;">
-                Copy Link
-              </div>
+              <div class="end-action-label">Copy Link</div>
             </div>
           </div>
         </div>
@@ -1117,16 +1292,21 @@ function init() {
     SOUNDS.gameover.play();
   }
 
+  let _timerPaused = false;
   function stopTimer() {
+    _timerPaused = true;
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = null;
   }
 
   function startTimer() {
+    if (_timerPaused && isPaused) return;
+    _timerPaused = false;
     updateTimerUI();
     timerEl.style.display = 'block';
     stopTimer();
     timerInterval = setInterval(() => {
+      if (isPaused) return;
       timeLeft--;
       timeUsed++;
       updateTimerUI();
@@ -1220,6 +1400,57 @@ function showTutorial() {
   });
 }
 
+// Add CSS for chat bubble and effects (inject if not present)
+(function addBunnyBubbleCSS() {
+  if (document.getElementById('bunny-bubble-css')) return;
+  const style = document.createElement('style');
+  style.id = 'bunny-bubble-css';
+  style.textContent = `
+    @keyframes bunny-bubble-pop {
+      0% { opacity: 0; transform: translateX(-50%) scale(0.8); }
+      80% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+      100% { opacity: 1; transform: translateX(-50%) scale(1); }
+    }
+    @keyframes bunny-heart-float {
+      0% { opacity: 0; transform: scale(0.8) translateY(0); }
+      50% { opacity: 1; transform: scale(1.2) translateY(-10px); }
+      100% { opacity: 0; transform: scale(1) translateY(-20px); }
+    }
+    .bunny-chat-bubble {
+      pointer-events: none;
+      user-select: none;
+      min-width: 60px;
+      min-height: 28px;
+      position: absolute;
+      left: 50%;
+      top: -54px;
+      transform: translateX(-50%);
+      z-index: 100;
+      background: #fff7fa;
+      border: 2px solid #b7e3b0;
+      border-radius: 12px;
+      padding: 7px 16px;
+      font-family: 'Press Start 2P', Arial, sans-serif;
+      font-size: 13px;
+      color: #36a36a;
+      box-shadow: 0 2px 8px #b7e3b0, 0 0 0 2px #e6f9e0;
+      animation: bunny-bubble-pop 0.18s cubic-bezier(.77,0,.18,1);
+    }
+    .bunny-chat-bubble .bunny-chat-text {
+      z-index: 2;
+      position: relative;
+      text-shadow: 1px 1px 0 #fff, 0 2px 0 #e6f9e0;
+    }
+    .bunny-heart-effect {
+      pointer-events: none;
+      user-select: none;
+      z-index: 99;
+      text-shadow: 0 2px 4px #fff7fa;
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
   const shareBtns = document.querySelectorAll('.share-btn');
   shareBtns.forEach(btn => {
@@ -1244,6 +1475,37 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => btn.classList.remove('copied'), 1200);
       }
     });
+  });
+
+  const pauseBtn = document.querySelector('.pause-btn');
+  if (pauseBtn) {
+    pauseBtn.addEventListener('click', () => {
+      showPauseModal();
+    });
+  }
+  // Pause modal buttons
+  const pauseModal = document.querySelector('.pause-modal');
+  if (pauseModal) {
+    pauseModal.querySelector('.resume-btn').addEventListener('click', () => {
+      hidePauseModal();
+    });
+    pauseModal.querySelector('.restart-btn').addEventListener('click', () => {
+      location.reload();
+    });
+    pauseModal.querySelector('.back-btn').addEventListener('click', () => {
+      hidePauseModal();
+      // Show start overlay, reset game
+      document.querySelector('.start-overlay').style.display = 'flex';
+      window.location.reload();
+    });
+  }
+  // Pause on Escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !isPaused) {
+      showPauseModal();
+    } else if (e.key === 'Escape' && isPaused) {
+      hidePauseModal();
+    }
   });
 });
 
@@ -1273,6 +1535,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const clickSound = new Audio('data:audio/wav;base64,UklGRl9vT19VQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgA');
 
   document.querySelector('.start-btn').addEventListener('click', () => {
+    // Get name from input and store globally
+    const nameInput = document.querySelector('.player-name-input');
+    window.PLAYER_NAME = nameInput && nameInput.value.trim() ? nameInput.value.trim().slice(0, 16) : "";
     SOUNDS.click.currentTime = 0; SOUNDS.click.play();
     hideStartOverlay();
     setTimeout(showModeOverlay, 500);
@@ -1319,3 +1584,13 @@ window.addEventListener('DOMContentLoaded', () => {
   document.body.addEventListener('keydown', startBGM, { once: true });
 });
 
+// ESC key toggles pause modal and timer (desktop only)
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') {
+    if (!isPaused) {
+      showPauseModal(); // This will also stop the timer
+    } else {
+      hidePauseModal(); // This will also resume the timer
+    }
+  }
+});
