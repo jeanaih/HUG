@@ -411,6 +411,15 @@ function init() {
     let oldBubble = bunny.el.querySelector('.bunny-chat-bubble');
     if (oldBubble) oldBubble.remove();
 
+    // Bunny happy responses
+    const happyResponses = [
+      'thanks!',
+      'Salamat Bossing!',
+      'yeah!',
+      'thank you!',
+      'Bossing!'
+    ];
+
     // Bunny sad thoughts/problems
     const sadThoughts = [
       "Mga manloloko 😭",
@@ -435,11 +444,13 @@ function init() {
       "Sana bumalik ka"
     ];
 
-    // Only show sad thought if bunny is sad
-    if (!bunny.sad) return;
-
-    // Pick message
-    let msg = sadThoughts[Math.floor(Math.random() * sadThoughts.length)];
+    // Show happy response if bunny is happy, else sad thought
+    let msg;
+    if (!bunny.sad) {
+      msg = happyResponses[Math.floor(Math.random() * happyResponses.length)];
+    } else {
+      msg = sadThoughts[Math.floor(Math.random() * sadThoughts.length)];
+    }
 
     // Create chat bubble (top of bunny)
     const bubble = document.createElement('div');
@@ -449,17 +460,44 @@ function init() {
     bubble.style.left = '50%';
     bubble.style.top = '-90px';
     bubble.style.transform = 'translateX(-50%)';
-    bubble.style.background = '#ffe9b3';
+    bubble.style.background = bunny.sad ? '#ffe9b3' : '#fff7fa';
     bubble.style.border = '2px solid #b7e3b0';
     bubble.style.borderRadius = '12px';
     bubble.style.padding = '7px 16px';
     bubble.style.fontFamily = "'Press Start 2P', Arial, sans-serif";
     bubble.style.fontSize = '13px';
-    bubble.style.color = '#b97a56';
+    bubble.style.color = bunny.sad ? '#b97a56' : '#36a36a';
     bubble.style.boxShadow = '0 2px 8px #b7e3b0, 0 0 0 2px #e6f9e0';
     bubble.style.zIndex = '100';
     bubble.style.pointerEvents = 'none';
     bubble.style.animation = 'bunny-bubble-pop 0.18s cubic-bezier(.77,0,.18,1)';
+
+    // Add hearts around bunny only if happy
+    if (!bunny.sad) {
+      const heartPositions = [
+        { left: '50%', top: '-38px', transform: 'translate(-50%, -100%)' }, // top
+        { left: '10%', top: '-18px', transform: 'translate(-50%, -100%)' }, // top-left
+        { left: '90%', top: '-18px', transform: 'translate(-50%, -100%)' }, // top-right
+        { left: '0%', top: '10px', transform: 'translate(-50%, 0)' },       // left
+        { left: '100%', top: '10px', transform: 'translate(-50%, 0)' },     // right
+        { left: '50%', top: '44px', transform: 'translate(-50%, 0)' }       // bottom
+      ];
+      heartPositions.forEach((pos, i) => {
+        const heart = document.createElement('span');
+        heart.textContent = '💖';
+        heart.className = 'bunny-heart-effect';
+        heart.style.position = 'absolute';
+        heart.style.left = pos.left;
+        heart.style.top = pos.top;
+        heart.style.transform = pos.transform;
+        heart.style.fontSize = '15px';
+        heart.style.opacity = '0.85';
+        heart.style.pointerEvents = 'none';
+        heart.style.animation = `bunny-heart-float 1.2s ${0.08 * i}s cubic-bezier(.77,0,.18,1) forwards`;
+        bunny.el.appendChild(heart);
+        setTimeout(() => { heart.remove(); }, 1200);
+      });
+    }
 
     // Insert bubble into bunny.el
     bunny.el.appendChild(bubble);
@@ -469,7 +507,13 @@ function init() {
       bubble.remove();
     }, 1200);
 
-    // No happy animation for sad thought
+    // Old class-based animation for happy
+    if (!bunny.sad && classToAdd) {
+      bunny.el.classList.add(classToAdd);
+      setTimeout(() => {
+        bunny.el.classList.remove(classToAdd);
+      }, 800);
+    }
   };
 
   // --- Make sad bunnies express their thoughts every 5 seconds, staggered ---
