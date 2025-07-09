@@ -2313,7 +2313,7 @@ body.mode-selecting .mode-overlay {
   position: fixed;
   top: 12px;
   /* tinaasan */
-  left: 40%;
+  left: 50%;
   transform: translateX(-50%);
   z-index: 1004;
   background: #fff7fa;
